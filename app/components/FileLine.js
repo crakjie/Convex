@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 /* </div>*/
 export default function FileLine(props) {
   return (
-    <tr>
+    <tr onClick={props.onClick}>
       <td>{props.file.name}</td>
       <td>{props.file.path}</td>
       <td>{props.metadata.format.format_name}</td>

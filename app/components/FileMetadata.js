@@ -41,7 +41,10 @@ function FileMetadataVideo(props) {
         <td>average frame rate</td><td>{props.video.avg_frame_rate}</td>
       </tr>
       <tr>
-        <td>video bit rate</td><td>{props.video.bit_rate}</td>
+        <td>Codec</td><td>{props.video.codec_long_name}</td>
+      </tr>
+      <tr>
+        <td>Codec tag</td><td>{props.video.codec_tag_string}</td>
       </tr>
       <tr>
         <td>video bit rate</td><td>{props.video.bit_rate}</td>

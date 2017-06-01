@@ -1,0 +1,14 @@
+.wrapper {
+  display: grid;
+  height: 100%;
+  width: 100%;
+
+  .fileList {
+    grid-column: 1;
+		border-right: 1px solid #ccc;
+  }
+
+  .fileMetadata {
+    grid-column: 2;
+  }
+}
