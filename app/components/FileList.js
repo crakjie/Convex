@@ -5,12 +5,17 @@ import DropZone from '../components/DropZone';
 import FileLine from '../components/FileLine';
 import styles from './FileList.css';
 
-function checkFile(file) {
-  let isOk = true;
-  ffmpeg.ffprobe(file.path, (err) => { console.log(1); isOk = err == null; });
-  console.log(2);
-  return isOk;
+function metadataFile(file) {
+  return new Promise(function(resolve, reject) {
+    ffmpeg.ffprobe(file.path, (err, metadata) => { resolve([file,metadata,err]); });
+  })
 }
+
+var filterAsync = (array, filter) =>
+  Promise.all(array.map(entry => filter(entry)))
+  .then(bits => array.filter(entry => bits.shift()));
+
+
 
 export default class FileList extends Component {
 
@@ -26,8 +31,8 @@ export default class FileList extends Component {
 
     return (
       <FileLine
-        key={file.name}
-        file={file}
+        key={file.file.name}
+        file={file.file}
       />
     );
   }
@@ -35,13 +40,23 @@ export default class FileList extends Component {
 
 
   handleDrop(newfiles) {
-    newfiles.forEach((f) => console.log(checkFile(f)));
-    const filteredFile = newfiles.filter(checkFile);
-      console.log(filteredFile);
-    this.setState({
-      files : this.state.files.concat(filteredFile)
-    });
+    //add metadata and error to files in a tuple [file, metadata, err]
+    const filteredFile = newfiles.map(metadataFile);
 
+    Promise.all(filteredFile).then((list) => {
+      console.log(list)
+      //remove errors and put files and metadata in an object
+      const rightFiles = list.filter( mf => mf[2] == null ).map( x => {
+        return {
+          file: x[0],
+          metadata: x[1]
+        };
+      });
+
+      this.setState({
+        files : this.state.files.concat(rightFiles)
+      })
+    })
   }
 
 
