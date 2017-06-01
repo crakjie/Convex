@@ -6,9 +6,9 @@ import { DragDropContext } from 'react-dnd';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
 import CounterPage from './containers/CounterPage';
-import FileList from './components/FileList';
+import ConverterApp from './containers/ConverterApp';
 
-const Ctx = DragDropContext(HTML5Backend)(FileList)
+const Ctx = DragDropContext(HTML5Backend)(ConverterApp)
 
 export default () => (
   <App>

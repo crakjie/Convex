@@ -9,6 +9,7 @@ export default function FileLine(props) {
     <tr>
       <td>{props.file.name}</td>
       <td>{props.file.path}</td>
+      <td>{props.metadata.format.format_name}</td>
     </tr>
   );
 }

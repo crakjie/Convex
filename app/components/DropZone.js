@@ -5,7 +5,6 @@ import styles from './DropZone.css';
 
 const fileTarget = {
   drop(props, monitor) {
-    console.log(monitor.getItem().files);
     props.onDrop(monitor.getItem().files);
   }
 };
