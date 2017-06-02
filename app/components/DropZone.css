@@ -1,4 +1,5 @@
 .container {
   border: 3px dashed whitesmoke;
-  padding: 5px;
+  padding: 20px;
+  margin: 5px;
 }

@@ -18,12 +18,14 @@ export default class FileList extends Component {
 
   renderFile(fileInfo) {
     console.log(fileInfo);
+    console.log(fileInfo === this.props.selectedFile);
     return (
       <FileLine
         key={fileInfo.file.name}
         file={fileInfo.file}
         metadata={fileInfo.metadata}
         onClick={() => this.props.onClick(fileInfo)}
+        isSelected={fileInfo === this.props.selectedFile}
       />
     );
   }
@@ -44,7 +46,7 @@ export default class FileList extends Component {
       <div>
 
         <div>
-           <table className={styles.files}>
+           <table className={styles.files_table}>
               <tbody>
                 <tr>
                   <th>name</th>
