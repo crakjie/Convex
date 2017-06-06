@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './FileMetadata.css';
+import FileSize from '../components/FileSize';
 
 export default function FileMetadata(props) {
 
@@ -24,7 +25,7 @@ export default function FileMetadata(props) {
                 <td>duration</td><td>{props.fileInfo.metadata.format.duration}s</td>
               </tr>
               <tr>
-                <td>size</td><td>{props.fileInfo.metadata.format.size}o</td>
+                <td>size</td><td><FileSize value={props.fileInfo.metadata.format.size} /></td>
               </tr>
               <tr>
                 <td>average frame rate</td><td>{video.avg_frame_rate}</td>

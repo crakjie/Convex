@@ -32,6 +32,7 @@ export function availableFilters() {
 
 export function ffmpegCapabilities() {
   return Promise.all([availableFormats(), availableCodecs(), availableEncoders(), availableFilters()]).then(t => {
+    console.log(t[2]);
     const formatsArray = Object.entries(t[0]).map(e => { e[1]['name'] = e[0]; return e[1]; }); // transform a map into an array of objects.
     const codecsArray = Object.entries(t[1]).map(e => { e[1]['name'] = e[0]; return e[1]; }).filter(codec => codec.canEncode); // transform a map into an array of objects.
     const encodersArray = Object.entries(t[2]).map(e => { e[1]['name'] = e[0]; return e[1]; }); // transform a map into an array of objects.
