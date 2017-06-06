@@ -6,6 +6,7 @@ import FileMetadata from '../components/FileMetadata';
 import OutputSetting from '../components/OutputSetting';
 import styles from '../containers/wrapper.scss';
 import * as ffpegUtils from '../actions/ffmpegUtils.js';
+import * as metadataUtils from '../actions/metadata.js';
 
 
 export default class ConverterApp extends Component {
@@ -42,10 +43,12 @@ export default class ConverterApp extends Component {
     });
   }
 
-  outputOptions(options : Map<String,String>) {
-    options.entries().map((k,v) =>
-      '-' + k + ' ' + v
-    )
+  outputOptions(options : Map<string, string>) {
+    let arrayOpt = [];
+    options.forEach((v, k) =>
+      arrayOpt.push('-' + k + ' ' + v)
+    );
+    return arrayOpt;
   }
 
 
@@ -76,9 +79,9 @@ handleDrop(newfiles) {
   }
 
   handleChange(outputSetting) {
-    console.log(this.state.selectedFile)
+    console.log(this.outputOptions(outputSetting.options));
     ffmpeg(this.state.selectedFile.file.path)
-
+    .outputFormat(outputSetting.format)
     .audioCodec(outputSetting.acodec)
     .audioBitrate(outputSetting.abtr)
     .audioQuality(outputSetting.aquality)
@@ -87,7 +90,10 @@ handleDrop(newfiles) {
     .fps(outputSetting.fps)
     .size(outputSetting.size)
     .outputOptions(this.outputOptions(outputSetting.options))
-    .on('error', function(err) {
+    .on('error', function(err, stdout, stderr) {
+      console.log(err);
+      console.log(stdout);
+      console.log(stderr);
       console.log('An error occurred: ' + err.message);
     })
     .on('end', function() {
@@ -104,6 +110,7 @@ handleDrop(newfiles) {
   }
 
   render() {
+    console.log(this.state.selectedFile)
     return (
       <div className={styles.wrapper} >
         <div className={styles.fileList} >
@@ -116,7 +123,7 @@ handleDrop(newfiles) {
         </div>
         <div className={styles.fileMetadata} >
           <FileMetadata
-            fileInfo={this.state.selectedFile}
+            tables={metadataUtils.extractMetadata(this.state.selectedFile)}
           />
         </div>
         <div className={styles.outputSetting} >

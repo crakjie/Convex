@@ -4,51 +4,40 @@ import { Link } from 'react-router-dom';
 import styles from './FileMetadata.css';
 import FileSize from '../components/FileSize';
 
+function fileMetadataLine(label, value) {
+  return(
+    <tr>
+      <td>{label}</td><td>{value}</td>
+    </tr>
+  );
+}
+
+function fileMetadataSeparator(label) {
+  return(
+    <tr>
+      <td>{label}</td>
+    </tr>
+  );
+}
+
+function renderTablePart(table) {
+  return [
+    fileMetadataLine(table.label),
+    table.lines.map((line) => fileMetadataLine(line.label,line.value))
+  ];
+}
+
 export default function FileMetadata(props) {
 
-    if(props.fileInfo == null) {
-      return <div className={styles.container} ><p>select a file to see metadata</p></div>
-    }
-    else {
-      const video = props.fileInfo.metadata.streams[0];
+      const tableContent = props.tables.map(x => renderTablePart(x));
       return (
         <div className={styles.container} >
           <table>
             <tbody>
-              <tr>
-                <td>format name</td><td>{props.fileInfo.metadata.format.format_name}</td>
-              </tr>
-              <tr>
-                <td>bit rate</td><td>{props.fileInfo.metadata.format.bi_rate}</td>
-              </tr>
-              <tr>
-                <td>duration</td><td>{props.fileInfo.metadata.format.duration}s</td>
-              </tr>
-              <tr>
-                <td>size</td><td><FileSize value={props.fileInfo.metadata.format.size} /></td>
-              </tr>
-              <tr>
-                <td>average frame rate</td><td>{video.avg_frame_rate}</td>
-              </tr>
-              <tr>
-                <td>Codec</td><td>{video.codec_long_name}</td>
-              </tr>
-              <tr>
-                <td>Codec tag</td><td>{video.codec_tag_string}</td>
-              </tr>
-              <tr>
-                <td>video bit rate</td><td>{video.bit_rate}</td>
-              </tr>
-              <tr>
-                <td>dimension / codec dimensions</td><td>{video.width}x{video.height} / {video.coded_width}x{video.coded_height}</td>
-              </tr>
-              <tr>
-                <td>number of frames</td><td>{video.nb_frames}</td>
-              </tr>
+              {tableContent}
             </tbody>
           </table>
         </div>);
-    }
 
 
 }

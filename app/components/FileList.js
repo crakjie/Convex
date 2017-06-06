@@ -17,8 +17,6 @@ export default class FileList extends Component {
   }
 
   renderFile(fileInfo) {
-    console.log(fileInfo);
-    console.log(fileInfo === this.props.selectedFile);
     return (
       <FileLine
         key={fileInfo.file.name}

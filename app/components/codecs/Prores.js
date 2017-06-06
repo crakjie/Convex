@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {ReactSelectize, SimpleSelect, MultiSelect} from 'react-selectize';
 /* <div  className={styles.container}  data-tid="container">*/
 /* </div>*/
 
@@ -9,51 +10,76 @@ function defundef(value) {
 }
 
 export default function Prores(props) {
+  const profiles = [
+    { label: 'Proxy', value: 'proxy' },
+    { label: 'lt', value: 'lt' },
+    { label: 'Standard', value: 'standard' },
+    { label: 'hq', value: 'hq' },
+    { label: '4444', value: '4444' }
+  ];
+  const selectedProfile = defundef(profiles.find(profile => profile.value === props.value.options.get('profile:v')));
+
+  const quantMatrixs = [
+    { label: 'Auto', value: 'auto' },
+    { label: 'Default', value: 'default' },
+    { label: 'Proxy', value: 'proxy' },
+    { label: 'lt', value: 'lt' },
+    { label: 'hq', value: 'hq' },
+    { label: 'Standard', value: 'standard' }
+  ];
+
+  const selectedQuantMatrix = defundef(quantMatrixs.find(matrix => matrix.value === props.value.options.get('quant_mat')));
+
+  const alphaBits = [
+    { label: '0', value: '0' },
+    { label: '8', value: '8' },
+    { label: '16', value: '16' }
+  ];
+  const selectedAlphaBit = defundef(alphaBits.find(alphaBit => alphaBit.value === props.value.options.get('alpha_bits')));
+
   return (
     <ul>
       <li>resolution
         <input
-          onChange={event => props.onChange('size', event)}
+          onChange={event => props.onChange('size', event.target.value)}
           value={props.value.size}
         />
       </li>
       <li>profile
-        <option name="profile" >
-          <select value="proxy" label="proxy" />
-          <select value="lt" label="lt" />
-          <select value="standard" label="standard" />
-          <select value="hq" label="hq" />
-          <select value="4444" label="4444" />
-        </option>
+        <SimpleSelect
+          onValueChange={pair => props.onOptionChange('profile:v', pair.value)}
+          placeholder="Select a profile"
+          value={selectedProfile}
+          options={profiles}
+        />
       </li>
       <li> quantization matrix
-        <option name="quant_mat" >
-          <select value="auto" label="auto" />
-          <select value="default" label="default" />
-          <select value="proxy" label="proxy" />
-          <select value="lt" label="lt" />
-          <select value="standard" label="standard" />
-          <select value="hq" label="hq" />
-        </option>
+        <SimpleSelect
+          onValueChange={pair => props.onOptionChange('quant_mat', pair.value)}
+          placeholder="Select a quantization matrix"
+          value={selectedQuantMatrix}
+          options={quantMatrixs}
+        />
       </li>
       <li> bits per macroblock, max 8000
         <input
-          onChange={event => props.onOptionChange('bits_per_mb', event)}
+          onChange={event => props.onOptionChange('bits_per_mb', event.target.value)}
           value={defundef(props.value.options.get('bits_per_mb'))}
         />
       </li>
       <li> Number of macroblocks in each slice (1-8)
         <input
-          onChange={event => props.onOptionChange('mbs_per_slice ', event)}
-          value={defundef(props.value.options.get('mbs_per_slice '))}
+          onChange={event => props.onOptionChange('mbs_per_slice', event.target.value)}
+          value={defundef(props.value.options.get('mbs_per_slice'))}
         />
       </li>
       <li> Specify number of bits for alpha component
-        <option name="alpha_bits" >
-          <select value="0" label="0" />
-          <select value="8" label="8" />
-          <select value="16" label="16" />
-        </option>
+      <SimpleSelect
+          onValueChange={pair => props.onOptionChange('alpha_bits', pair.value)}
+          placeholder="Specify number of bits for alpha component"
+          value={selectedAlphaBit}
+          options={alphaBits}
+        />
       </li>
     </ul>
   );
