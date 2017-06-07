@@ -7,67 +7,45 @@ import LibOpenH264 from './codecs/LibOpenH264.js'
 //import styles from './FileLine.scss';
 /* <div  className={styles.container}  data-tid="container">*/
 /* </div>*/
-export default class OutputSetting extends PureComponent {
+export default function OutputSetting(props) {
 
-  constructor(props) {
-    super(props);
-    this.state = props.settings;/*{
-      format: '3g2',
-      size: '480x640', // resolution
-      fps: '', // frame per second
-      vcodec: '', // video codec
-      vbtr: 0, // video bit rate
-      isConstant : false,
-      acodec: '', // audio codec
-      aquality: 0, // audi quality
-      abtr: 0, // audio bit rate
-      options : new Map()
-    };*/
+  const settings = Object.assign({}, props.settings);
 
-    this.handleChange = this.handleChange.bind(this);
+  function handleChange(key, value) {
+    settings[key] = value;
+    props.onChange(settings);
   }
 
-  handleChange(key, value) {
-    this.setState({
-        [key] : value
-    })
+  function handleOptionChange(key, value) {
+    settings.options.set(key, value);
+    props.onChange(settings);
   }
 
-  handleOptionChange(key, value) {
-    this.setState(state => {
-      return {
-        options : state.options.set(key, value)
-      };
-    })
+  function handleValueChange(key, event) {
+    settings[key] = event.value;
+    props.onChange(settings);
   }
 
-  handleValueChange(key, event) {
-    this.setState({
-        [key] : event.value
-    })
-    this.props.onChange(this.state);
+  function toSelectizeValue(value) {
+    return { label: value, value };
   }
 
-  toSelectizeValue(value) {
-    return {label: value, value: value}
-  }
-
-  renderVideoCodec() {
-    switch(this.state.vcodec) {
+  function renderVideoCodec() {
+    switch(settings.vcodec) {
       case 'prores_ks':
         return (
           <Prores
-            onOptionChange={(key, event) => this.handleOptionChange(key, event)}
-            onChange={(key, value) => this.handleChange(key, value)}
-            value={this.state}
+            onOptionChange={(key, event) => handleOptionChange(key, event)}
+            onChange={(key, value) => handleChange(key, value)}
+            value={settings}
           />
         );
       case 'libopenh264':
         return (
           <LibOpenH264
-            onOptionChange={(key, event) => this.handleOptionChange(key, event)}
-            onChange={(key, value) => this.handleChange(key, value)}
-            value={this.state}
+            onOptionChange={(key, event) => handleOptionChange(key, event)}
+            onChange={(key, value) => handleChange(key, value)}
+            value={settings}
           />
         );
       default:
@@ -75,65 +53,59 @@ export default class OutputSetting extends PureComponent {
     }
   }
 
-  render() {
-     console.log('prout');
-    console.log(this.state);
-    return (
-      <div>
-        <ul>
-          <li>
-            <label>format</label>
-            <SimpleSelect
-              placeholder="Select a output format"
-              options={this.props.formats.map(format => this.toSelectizeValue(format.name))}
-              theme="material"
-              onValueChange={event => this.handleValueChange('format', event)}
-              value={this.toSelectizeValue(this.state.format)}
-            />
-          </li>
-          <li>
-            video codec
-            <SimpleSelect
-              placeholder="Select the video codec"
-              options={this.props.videoCodecs.map(codec => this.toSelectizeValue(codec.name))}
-              theme="material"
-              onValueChange={event => this.handleValueChange('vcodec', event)}
-              value={this.toSelectizeValue(this.state.vcodec)}
-            />
-          </li>
-          <li>audio codec
-            <SimpleSelect
-              placeholder="Select the audio codec"
-              options={this.props.audioCodecs.map(codec => this.toSelectizeValue(codec.name))}
-              theme="material"
-              onValueChange={event => this.handleValueChange('acodec', event)}
-              value={this.toSelectizeValue(this.state.acodec)}
-            />
-          </li>
-          {this.renderVideoCodec()}
-          <li>frame per second
-            <input
-              onChange={event => this.handleChange('fps', event.target.value)}
-              value={this.state.fps}
-            />
-          </li>
-          <li>audio quality
-            <input
-              onChange={event => this.handleChange('aquality', event.target.value)}
-              value={this.state.aquality}
-            />
-          </li>
-          <li>audio bit rate
-            <input
-              onChange={event => this.handleChange('abtr', event.target.value)}
-              value={this.state.abtr}
-            />
-          </li>
-        </ul>
-        <button onClick={() =>this.props.onClick(this.state)}>Convert</button>
-      </div>
-    );
-  }
-
-
+  return (
+    <div>
+      <ul>
+        <li>
+          <label>format</label>
+          <SimpleSelect
+            placeholder="Select a output format"
+            options={props.formats.map(format => toSelectizeValue(format.name))}
+            theme="material"
+            onValueChange={event => handleValueChange('format', event)}
+            value={toSelectizeValue(settings.format)}
+          />
+        </li>
+        <li>
+          video codec
+          <SimpleSelect
+            placeholder="Select the video codec"
+            options={props.videoCodecs.map(codec => toSelectizeValue(codec.name))}
+            theme="material"
+            onValueChange={event => handleValueChange('vcodec', event)}
+            value={toSelectizeValue(settings.vcodec)}
+          />
+        </li>
+        <li>audio codec
+          <SimpleSelect
+            placeholder="Select the audio codec"
+            options={props.audioCodecs.map(codec => toSelectizeValue(codec.name))}
+            theme="material"
+            onValueChange={event => handleValueChange('acodec', event)}
+            value={toSelectizeValue(settings.acodec)}
+          />
+        </li>
+        {renderVideoCodec()}
+        <li>frame per second
+          <input
+            onChange={event => handleChange('fps', event.target.value)}
+            value={settings.fps}
+          />
+        </li>
+        <li>audio quality
+          <input
+            onChange={event => handleChange('aquality', event.target.value)}
+            value={settings.aquality}
+          />
+        </li>
+        <li>audio bit rate
+          <input
+            onChange={event => handleChange('abtr', event.target.value)}
+            value={settings.abtr}
+          />
+        </li>
+      </ul>
+      <button onClick={() => props.onClick(settings)}>Convert</button>
+    </div>
+  );
 }

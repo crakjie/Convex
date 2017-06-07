@@ -100,9 +100,13 @@ handleDrop(newfiles) {
   }
 
   handleSettingChange(config) {
+    console.log(config);
     const i = Utils.findIndexOf(this.state.settingList,stg => stg.uid === config.uid);
+    const copy = this.state.settingList.slice();
+    copy[i] = config;
     this.setState({
-        selectedSetting : config
+        selectedSetting : config,
+        settingList: copy
     });
   }
 
@@ -140,6 +144,7 @@ handleDrop(newfiles) {
     if(this.state.selectedSetting === null) {
       return <div/>;
     } else {
+      console.log('selectedSetting');
       console.log(this.state.selectedSetting);
       return(
         <OutputSetting
