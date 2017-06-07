@@ -8,7 +8,6 @@ export default function FileLine(props) {
   return (
     <tr onClick={props.onClick} className={(props.isSelected ? styles.selected : styles.notselected)}>
       <td>{props.file.name}</td>
-      <td>{props.file.path}</td>
       <td>{props.metadata.format.format_name}</td>
     </tr>
   );

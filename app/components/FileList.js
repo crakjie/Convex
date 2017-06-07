@@ -48,7 +48,7 @@ export default class FileList extends Component {
               <tbody>
                 <tr>
                   <th>name</th>
-                  <th>path</th>
+                  <th>format</th>
                 </tr>
                 {listItems}
               </tbody>

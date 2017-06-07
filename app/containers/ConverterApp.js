@@ -4,6 +4,7 @@ import ffmpeg  from 'fluent-ffmpeg';
 import FileList from '../components/FileList';
 import FileMetadata from '../components/FileMetadata';
 import OutputSetting from '../components/OutputSetting';
+import ConfigPane from '../components/ConfigPane';
 import styles from '../containers/wrapper.scss';
 import * as ffpegUtils from '../actions/ffmpegUtils.js';
 import * as metadataUtils from '../actions/metadata.js';
@@ -113,6 +114,11 @@ handleDrop(newfiles) {
     console.log(this.state.selectedFile)
     return (
       <div className={styles.wrapper} >
+        <div className={styles.configPane} >
+          <ConfigPane
+            configs={[]}
+          />
+        </div>
         <div className={styles.fileList} >
           <FileList
               filesInfo={this.state.filesInfo}

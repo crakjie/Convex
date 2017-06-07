@@ -3,12 +3,22 @@
   height: 100%;
   width: 100%;
 
-  .fileList {
+	.configPane {
     grid-column: 1;
+		border-right: 1px solid #ccc;
+		width: 25%;
+  }
+
+  .fileList {
+    grid-column: 2;
 		border-right: 1px solid #ccc;
   }
 
   .fileMetadata {
-    grid-column: 2;
+    grid-column: 3;
   }
+
+	.outputSetting{
+		grid-column: 4;
+	}
 }

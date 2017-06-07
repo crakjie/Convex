@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './FileMetadata.css';
+import styles from './FileMetadata.scss';
 import FileSize from '../components/FileSize';
 
 function fileMetadataLine(label, value) {
@@ -15,15 +15,15 @@ function fileMetadataLine(label, value) {
 function fileMetadataSeparator(label) {
   return(
     <tr>
-      <td>{label}</td>
+      <th colSpan="2" scope="colgroup">{label}</th>
     </tr>
   );
 }
 
 function renderTablePart(table) {
   return [
-    fileMetadataLine(table.label),
-    table.lines.map((line) => fileMetadataLine(line.label,line.value))
+    fileMetadataSeparator(table.label),
+    table.lines.map((line) => fileMetadataLine(line.label, line.value))
   ];
 }
 

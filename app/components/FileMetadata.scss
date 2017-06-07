@@ -1,0 +1,25 @@
+.container {
+  display: relative;
+
+  width: 100%;
+	border: solid 1px gray;
+	height: 100%;
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		th {
+			padding-top: 10px;
+			padding-bottom: 10px;
+		}
+		td {
+			padding: 5px;
+		}
+		tr:nth-child(even) {
+			background-color: rgba(75, 75, 75, 0.3);
+		}
+		tr:nth-child(odd) {
+			background-color: rgba(175, 175, 175, 0.3);
+		}
+	}
+}
