@@ -8,6 +8,8 @@ import ConfigPane from '../components/ConfigPane';
 import styles from '../containers/wrapper.scss';
 import * as ffpegUtils from '../actions/ffmpegUtils.js';
 import * as metadataUtils from '../actions/metadata.js';
+import * as Utils from '../actions/utils.js';
+import * as Model from '../actions/model.js';
 
 
 export default class ConverterApp extends Component {
@@ -24,6 +26,8 @@ export default class ConverterApp extends Component {
         subtitleCodecs: [],
         encoders: []
       },
+      selectedSetting : null,
+      settingList : [],
       outputSetting: {
         format: '',
         size: '', // resolution
@@ -73,14 +77,36 @@ handleDrop(newfiles) {
     })
   }
 
+  handleCreateConfig() {
+    const newConfig = Model.newConfig();
+    this.setState(state => {
+      return {
+        selectedSetting: newConfig,
+        settingList: state.settingList.concat(newConfig)
+      };
+    });
+  }
+
   handleClick(file) {
     this.setState({
         selectedFile : file
-    })
+    });
   }
 
-  handleChange(outputSetting) {
-    console.log(this.outputOptions(outputSetting.options));
+  handleClickConfig(config) {
+    this.setState({
+        selectedSetting : config
+    });
+  }
+
+  handleSettingChange(config) {
+    const i = Utils.findIndexOf(this.state.settingList,stg => stg.uid === config.uid);
+    this.setState({
+        selectedSetting : config
+    });
+  }
+
+  handleRun(outputSetting) {
     ffmpeg(this.state.selectedFile.file.path)
     .outputFormat(outputSetting.format)
     .audioCodec(outputSetting.acodec)
@@ -110,13 +136,36 @@ handleDrop(newfiles) {
     })
   }
 
+  renderSettings() {
+    if(this.state.selectedSetting === null) {
+      return <div/>;
+    } else {
+      console.log(this.state.selectedSetting);
+      return(
+        <OutputSetting
+            formats={this.state.capabilities.formats}
+            audioCodecs={this.state.capabilities.audioCodecs}
+            videoCodecs={this.state.capabilities.videoCodecs}
+            onRun={i => this.handleRun(i)}
+            onChange={i => this.handleSettingChange(i)}
+            settings={this.state.selectedSetting}
+          />
+      );
+    }
+  }
+
   render() {
-    console.log(this.state.selectedFile)
+
+
+
     return (
       <div className={styles.wrapper} >
         <div className={styles.configPane} >
           <ConfigPane
-            configs={[]}
+            configs={this.state.settingList}
+            selectedConfig={this.state.selectedSetting}
+            onClick={i => this.handleClickConfig(i)}
+            onCreate={() => this.handleCreateConfig()}
           />
         </div>
         <div className={styles.fileList} >
@@ -133,12 +182,7 @@ handleDrop(newfiles) {
           />
         </div>
         <div className={styles.outputSetting} >
-          <OutputSetting
-            formats={this.state.capabilities.formats}
-            audioCodecs={this.state.capabilities.audioCodecs}
-            videoCodecs={this.state.capabilities.videoCodecs}
-            onClick={i => this.handleChange(i)}
-          />
+          {this.renderSettings()}
         </div>
       </div>
     );

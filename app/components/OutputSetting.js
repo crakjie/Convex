@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import {ReactSelectize, SimpleSelect, MultiSelect} from 'react-selectize';
 import Prores from './codecs/Prores.js'
@@ -7,10 +7,11 @@ import LibOpenH264 from './codecs/LibOpenH264.js'
 //import styles from './FileLine.scss';
 /* <div  className={styles.container}  data-tid="container">*/
 /* </div>*/
-export default class OutputSetting extends Component {
+export default class OutputSetting extends PureComponent {
+
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = props.settings;/*{
       format: '3g2',
       size: '480x640', // resolution
       fps: '', // frame per second
@@ -21,7 +22,7 @@ export default class OutputSetting extends Component {
       aquality: 0, // audi quality
       abtr: 0, // audio bit rate
       options : new Map()
-    };
+    };*/
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -33,7 +34,6 @@ export default class OutputSetting extends Component {
   }
 
   handleOptionChange(key, value) {
-    console.log(value)
     this.setState(state => {
       return {
         options : state.options.set(key, value)
@@ -45,6 +45,7 @@ export default class OutputSetting extends Component {
     this.setState({
         [key] : event.value
     })
+    this.props.onChange(this.state);
   }
 
   toSelectizeValue(value) {
@@ -75,7 +76,8 @@ export default class OutputSetting extends Component {
   }
 
   render() {
-
+     console.log('prout');
+    console.log(this.state);
     return (
       <div>
         <ul>

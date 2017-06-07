@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import InlineEdit from 'react-edit-inline';
 import styles from './ConfigPane.scss';
 
 
@@ -7,17 +8,27 @@ import styles from './ConfigPane.scss';
 
 export default function ConfigPane(props) {
 
+  function setName(name, obj) {
+    const x = obj;
+    x.name = name;
+    return obj;
+  }
+
   function renderConfig(config) {
-    const isSelected = config === this.props.selectedConfig;
+    const isSelected = config === props.selectedConfig;
     return (
-      <li>
-        <div className={style.item}>
+      <li key={config.uid}>
+        <div className={styles.item}>
           <button
             key={config.name}
-            onClick={() => this.props.onClick(config)}
+            onClick={() => props.onClick(config)}
             className={(isSelected ? styles.selected : styles.notselected)}
           >
-            {config.name}
+            <InlineEdit
+              text={config.name}
+              paramName="name"
+              change={(value) => props.onClick(setName(value.name, config))}
+            />
           </button>
         </div>
       </li>
@@ -29,6 +40,7 @@ export default function ConfigPane(props) {
     <div className={styles.container} >
       <div>Presets</div>
       <button
+        onClick={() => props.onCreate()}
         className="btn btn--super-compact"
       >add</button>
       <ul>

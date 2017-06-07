@@ -50,3 +50,6 @@ main.js.map
 
 .idea
 npm-debug.log.*
+ffprobe.exe
+ffmpeg.exe
+ffplay.exe
