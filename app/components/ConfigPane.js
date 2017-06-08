@@ -41,8 +41,8 @@ export default function ConfigPane(props) {
       <div>Presets</div>
       <button
         onClick={() => props.onCreate()}
-        className="btn btn--super-compact"
-      >add</button>
+        className={styles.addButton}
+      ><i className="fa fa-plus-circle" /></button>
       <ul>
       {configList}
       </ul>
