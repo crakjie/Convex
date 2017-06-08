@@ -8,6 +8,7 @@ import ConfigPane from '../components/ConfigPane';
 import styles from '../containers/wrapper.scss';
 import * as ffpegUtils from '../actions/ffmpegUtils.js';
 import * as metadataUtils from '../actions/metadata.js';
+import Store from '../actions/storage.js';
 import * as Utils from '../actions/utils.js';
 import * as Model from '../actions/model.js';
 
@@ -16,6 +17,7 @@ export default class ConverterApp extends Component {
 
   constructor() {
     super();
+    this.store = new Store('savedSettings.json');
     this.state = {
       filesInfo: [],
       selectedFile: null,
@@ -27,25 +29,16 @@ export default class ConverterApp extends Component {
         encoders: []
       },
       selectedSetting : null,
-      settingList : [],
-      outputSetting: {
-        format: '',
-        size: '', // resolution
-        fps: '', // frame per second
-        vcodec: '', // video codec
-        vbtr: 0, // video bit rate
-        acodec: '', // audio codec
-        aquality: 0, // audi quality
-        abtr: 0, // audio bit rate
-        options : new Map() //abitrari outputOption depending of the codec.
-      }
+      settingList : this.store.load()
     };
-    ffpegUtils.ffmpegCapabilities().then( capa => {
-      console.log(capa);
+    ffpegUtils.ffmpegCapabilities().then(capa => {
       this.setState({
         capabilities: capa
       });
     });
+
+
+
   }
 
   outputOptions(options : Map<string, string>) {
@@ -160,8 +153,7 @@ handleDrop(newfiles) {
   }
 
   render() {
-
-
+    this.store.store(this.state.settingList);
 
     return (
       <div className={styles.wrapper} >
