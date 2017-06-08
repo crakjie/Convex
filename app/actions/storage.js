@@ -2,21 +2,7 @@ import electron from 'electron';
 import path from 'path';
 import fs from 'fs';
 
-function settingsToJson(settings) {
-  return settings.map(setting => {
-    const copy = Object.assign({}, setting);
-    copy.options = [...setting.options];
-    return copy;
-  });
-}
 
-function settingsFromJson(settings) {
-  return settings.map(setting => {
-    const copy = Object.assign({}, setting);
-    copy.options = new Map(setting.options);
-    return copy;
-  });
-}
 
 class Store {
   constructor(fileName: string) {
@@ -31,12 +17,12 @@ class Store {
 
   // This will just return the property on the `data` object
   load() {
-    return settingsFromJson(this.data);
+    return this.data;
   }
 
   // ...and this will set it
   store(newData) {
-    this.data = settingsToJson(newData);
+    this.data = newData;
     // Wait, I thought using the node.js' synchronous APIs was bad form?
     // We're not writing a server so there's not nearly the same IO demand on the process
     // Also if we used an async API and our app was quit before the asynchronous write had a chance to complete,
@@ -58,21 +44,5 @@ function parseDataFile(filePath, defaults) {
 
 // expose the class
 module.exports = Store;
-
-/*export function store(model) {
-  Storage.set(filePath, settingsToJson(model))
-  .catch(err => {
-    console.error(err);
-  });
-}
-
-export function load() {
-  return Storage.get(filePath)
-  .then(settingsFromJson)
-  .catch(err => {
-    console.log(err);
-    return [];
-  });
-}*/
 
 

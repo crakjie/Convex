@@ -29,7 +29,7 @@ export default class ConverterApp extends Component {
         encoders: []
       },
       selectedSetting : null,
-      settingList : this.store.load()
+      settingList : Utils.settingsFromJson(this.store.load())
     };
     ffpegUtils.ffmpegCapabilities().then(capa => {
       this.setState({
@@ -153,7 +153,7 @@ handleDrop(newfiles) {
   }
 
   render() {
-    this.store.store(this.state.settingList);
+    this.store.store(Utils.settingsToJson(this.state.settingList));
 
     return (
       <div className={styles.wrapper} >

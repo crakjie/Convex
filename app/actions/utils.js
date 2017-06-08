@@ -12,3 +12,18 @@ export function findIndexOf(array, fn : A => boolean) {
     return -1;
 }
 
+export function settingsToJson(settings) {
+  return settings.map(setting => {
+    const copy = Object.assign({}, setting);
+    copy.options = [...setting.options];
+    return copy;
+  });
+}
+
+export function settingsFromJson(settings) {
+  return settings.map(setting => {
+    const copy = Object.assign({}, setting);
+    copy.options = new Map(setting.options);
+    return copy;
+  });
+}
