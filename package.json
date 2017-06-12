@@ -187,6 +187,7 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
+    "ajv": "^5.1.5",
     "electron-debug": "^1.1.0",
     "ffbinaries": "^0.1.2",
     "fluent-ffmpeg": "~2.1.2",
