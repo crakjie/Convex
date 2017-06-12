@@ -8,16 +8,17 @@
 
 	.configPane {
     grid-column: 1;
-		border-right: 1px solid #ccc;
+		border-right: 1px solid gray;
   }
 
   .fileList {
     grid-column: 2;
-		border-right: 1px solid #ccc;
+		border-right: 1px solid gray;
   }
 
   .fileMetadata {
     grid-column: 3;
+		border-right: solid 1px gray;
   }
 
 	.outputSetting{
