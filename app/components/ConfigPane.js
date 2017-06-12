@@ -39,10 +39,14 @@ export default function ConfigPane(props) {
   return (
     <div className={styles.container} >
       <div>Presets</div>
-      <button
-        onClick={() => props.onCreate()}
-        className={styles.addButton}
-      ><i className="fa fa-plus-circle" /></button>
+      <div className={styles.addButton}>
+        <button
+          onClick={() => props.onCreate()}
+
+        >
+          <i className="fa fa-plus-circle" />
+        </button>
+      </div>
       <ul>
       {configList}
       </ul>
