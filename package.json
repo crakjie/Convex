@@ -22,7 +22,7 @@
     "flow": "flow check",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
     "start-hot-renderer": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./app/main.dev",
-    "postinstall": "concurrently \"npm run flow-typed\" \"npm run build\" \"npm run build-dll\" \"install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
+    "postinstall": "concurrently \"npm run flow-typed\" \"npm run build\" \"npm run build-dll\" \"install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\" \"ffbinaries ffmpeg\"",
     "dev": "cross-env START_HOT=1 npm run hot-updates-server",
     "package": "npm run build && build --publish never",
     "package-win": "npm run build && build --win --x64",
@@ -33,6 +33,7 @@
   "build": {
     "productName": "Convex",
     "appId": "org.develar.ElectronReact",
+    "asar": true,
     "files": [
       "dist/",
       "node_modules/",
@@ -40,6 +41,9 @@
       "main.prod.js",
       "main.prod.js.map",
       "package.json"
+    ],
+    "extraFiles" : [
+      "ffmpeg.exe"
     ],
     "dmg": {
       "contents": [
@@ -189,7 +193,7 @@
   "dependencies": {
     "ajv": "^5.1.5",
     "electron-debug": "^1.1.0",
-    "ffbinaries": "^0.1.2",
+    "ffbinaries": "^1.0.1",
     "fluent-ffmpeg": "~2.1.2",
     "font-awesome": "^4.7.0",
     "history": "^4.6.1",
@@ -199,7 +203,6 @@
     "react-dnd": "^2.4.0",
     "react-dnd-html5-backend": "^2.4.1",
     "react-dom": "^15.5.4",
-    "react-dropzone": "^3.13.2",
     "react-hot-loader": "3.0.0-beta.6",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
