@@ -53,6 +53,41 @@ export default function OutputSetting(props) {
     }
   }
 
+  //TODO show the drop down only if there is a video stream in the file.
+  function randerVideoCodecDropdown() {
+    if (props.formats[settings.format] !== undefined) {
+      return (
+        <li>
+          video codec
+          <SimpleSelect
+            placeholder="Select the video codec"
+            options={props.formats[settings.format].video.map(codec => toSelectizeValue(codec))}
+            theme="material"
+            onValueChange={event => handleValueChange('vcodec', event)}
+            value={toSelectizeValue(settings.vcodec)}
+          />
+        </li>
+      );
+    }
+  }
+
+
+  function randerAudioCodecDropdown() {
+    if (props.formats[settings.format] !== undefined) {
+      return (
+        <li>audio codec
+          <SimpleSelect
+            placeholder="Select the audio codec"
+            options={props.formats[settings.format].audio.map(codec => toSelectizeValue(codec))}
+            theme="material"
+            onValueChange={event => handleValueChange('acodec', event)}
+            value={toSelectizeValue(settings.acodec)}
+          />
+        </li>
+      );
+    }
+  }
+
   return (
     <div>
       <ul>
@@ -60,32 +95,15 @@ export default function OutputSetting(props) {
           <label>format</label>
           <SimpleSelect
             placeholder="Select a output format"
-            options={props.formats.map(format => toSelectizeValue(format.name))}
+            options={Object.keys(props.formats).map(format => toSelectizeValue(format))}
             theme="material"
             onValueChange={event => handleValueChange('format', event)}
             value={toSelectizeValue(settings.format)}
           />
         </li>
-        <li>
-          video codec
-          <SimpleSelect
-            placeholder="Select the video codec"
-            options={props.videoCodecs.map(codec => toSelectizeValue(codec.name))}
-            theme="material"
-            onValueChange={event => handleValueChange('vcodec', event)}
-            value={toSelectizeValue(settings.vcodec)}
-          />
-        </li>
-        <li>audio codec
-          <SimpleSelect
-            placeholder="Select the audio codec"
-            options={props.audioCodecs.map(codec => toSelectizeValue(codec.name))}
-            theme="material"
-            onValueChange={event => handleValueChange('acodec', event)}
-            value={toSelectizeValue(settings.acodec)}
-          />
-        </li>
+        {randerVideoCodecDropdown()}
         {renderVideoCodec()}
+        {randerAudioCodecDropdown()}
         <li>frame per second
           <input
             onChange={event => handleChange('fps', event.target.value)}

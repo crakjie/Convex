@@ -21,21 +21,9 @@ export default class ConverterApp extends Component {
     this.state = {
       filesInfo: [],
       selectedFile: null,
-      capabilities: {
-        formats: [],
-        videoCodecs: [],
-        audioCodecs: [],
-        subtitleCodecs: [],
-        encoders: []
-      },
       selectedSetting : null,
       settingList : Utils.settingsFromJson(this.store.load())
     };
-    ffpegUtils.ffmpegCapabilities().then(capa => {
-      this.setState({
-        capabilities: capa
-      });
-    });
 
 
 
@@ -137,13 +125,9 @@ handleDrop(newfiles) {
     if(this.state.selectedSetting === null) {
       return <div/>;
     } else {
-      console.log('selectedSetting');
-      console.log(this.state.selectedSetting);
       return(
         <OutputSetting
-            formats={this.state.capabilities.formats}
-            audioCodecs={this.state.capabilities.audioCodecs}
-            videoCodecs={this.state.capabilities.videoCodecs}
+            formats={ffpegUtils.formats}
             onRun={i => this.handleRun(i)}
             onChange={i => this.handleSettingChange(i)}
             settings={this.state.selectedSetting}
