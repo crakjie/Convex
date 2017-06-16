@@ -2,11 +2,10 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import {ReactSelectize, SimpleSelect, MultiSelect} from 'react-selectize';
-import Prores from './codecs/Prores.js'
-import LibOpenH264 from './codecs/LibOpenH264.js'
-//import styles from './FileLine.scss';
-/* <div  className={styles.container}  data-tid="container">*/
-/* </div>*/
+import Prores from './codecs/Prores.js';
+import LibOpenH264 from './codecs/LibOpenH264.js';
+import styles from './OutputSettings.scss';
+
 export default function OutputSetting(props) {
 
   const settings = Object.assign({}, props.settings);
@@ -58,7 +57,6 @@ export default function OutputSetting(props) {
     if (props.formats[settings.format] !== undefined) {
       return (
         <li>
-          video codec
           <SimpleSelect
             placeholder="Select the video codec"
             options={props.formats[settings.format].video.map(codec => toSelectizeValue(codec))}
@@ -75,7 +73,7 @@ export default function OutputSetting(props) {
   function randerAudioCodecDropdown() {
     if (props.formats[settings.format] !== undefined) {
       return (
-        <li>audio codec
+        <li>
           <SimpleSelect
             placeholder="Select the audio codec"
             options={props.formats[settings.format].audio.map(codec => toSelectizeValue(codec))}
@@ -89,11 +87,12 @@ export default function OutputSetting(props) {
   }
 
   return (
-    <div>
+    <div className={styles.container} >
       <ul>
         <li>
-          <label>format</label>
+          <label  htmlFor="format">format</label>
           <SimpleSelect
+            id="format"
             placeholder="Select a output format"
             options={Object.keys(props.formats).map(format => toSelectizeValue(format))}
             theme="material"
@@ -104,20 +103,26 @@ export default function OutputSetting(props) {
         {randerVideoCodecDropdown()}
         {renderVideoCodec()}
         {randerAudioCodecDropdown()}
-        <li>frame per second
+        <li>
+          <label htmlFor="fps">frame per second</label>
           <input
+            id="fps"
             onChange={event => handleChange('fps', event.target.value)}
             value={settings.fps}
           />
         </li>
-        <li>audio quality
+        <li>
+          <label htmlFor="aquality">audio quality</label>
           <input
+            id="aquality"
             onChange={event => handleChange('aquality', event.target.value)}
             value={settings.aquality}
           />
         </li>
-        <li>audio bit rate
+        <li>
+          <label htmlFor="abtr">audio bit rate</label>
           <input
+            id="abtr"
             onChange={event => handleChange('abtr', event.target.value)}
             value={settings.abtr}
           />

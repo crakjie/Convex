@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ffmpeg  from 'fluent-ffmpeg';
 import FileList from '../components/FileList';
 import FileMetadata from '../components/FileMetadata';
-import OutputSetting from '../components/OutputSetting';
+import OutputSetting from '../components/OutputSettings';
 import ConfigPane from '../components/ConfigPane';
 import styles from '../containers/wrapper.scss';
 import * as ffpegUtils from '../actions/ffmpegUtils.js';
@@ -44,6 +44,7 @@ handleDrop(newfiles) {
     const filteredFile = newfiles.map(ffpegUtils.metadataFile);
 
     Promise.all(filteredFile).then((list) => {
+      console.log(list)
       //remove errors and put files and metadata in an object
       const rightFiles = list.filter( mf => mf[2] == null ).map( x => {
         return {
@@ -51,7 +52,7 @@ handleDrop(newfiles) {
           metadata: x[1]
         };
       });
-
+      console.log(rightFiles)
       this.setState({
         filesInfo : this.state.filesInfo.concat(rightFiles)
       })

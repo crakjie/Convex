@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import {ReactSelectize, SimpleSelect, MultiSelect} from 'react-selectize';
+import SimpleInput from '../SimpleInput';
+
 /* <div  className={styles.container}  data-tid="container">*/
 /* </div>*/
 
@@ -39,46 +41,59 @@ export default function Prores(props) {
 
   return (
     <ul>
-      <li>resolution
-        <input
-          onChange={event => props.onChange('size', event.target.value)}
-          value={props.value.size}
+      <li>
+        <SimpleInput
+          label="Resolution."
+          id="size"
+          value={defundef(props.value.options.get('size'))}
+          onChange={props.onOptionChange}
         />
       </li>
-      <li>profile
+      <li>
         <SimpleSelect
+          id="profile:v"
           onValueChange={pair => props.onOptionChange('profile:v', pair.value)}
           placeholder="Select a profile"
           value={selectedProfile}
           options={profiles}
+          theme="material"
         />
       </li>
-      <li> quantization matrix
+      <li>
         <SimpleSelect
+          id="quant_mat"
           onValueChange={pair => props.onOptionChange('quant_mat', pair.value)}
           placeholder="Select a quantization matrix"
           value={selectedQuantMatrix}
           options={quantMatrixs}
+          theme="material"
         />
       </li>
-      <li> bits per macroblock, max 8000
-        <input
-          onChange={event => props.onOptionChange('bits_per_mb', event.target.value)}
+      <li>
+        <SimpleInput
+          label="Bits per macroblock, max 8000."
+          id="bits_per_mb"
           value={defundef(props.value.options.get('bits_per_mb'))}
+          onChange={props.onOptionChange}
         />
       </li>
-      <li> Number of macroblocks in each slice (1-8)
-        <input
-          onChange={event => props.onOptionChange('mbs_per_slice', event.target.value)}
+      <li>
+        <SimpleInput
+          label="Number of macroblocks in each slice (1-8)"
+          id="mbs_per_slice"
           value={defundef(props.value.options.get('mbs_per_slice'))}
+          onChange={props.onOptionChange}
         />
       </li>
-      <li> Specify number of bits for alpha component
-      <SimpleSelect
+      <li>
+        <label htmlFor="alpha_bits">Specify number of bits for alpha component</label>
+        <SimpleSelect
+          id="alpha_bits"
           onValueChange={pair => props.onOptionChange('alpha_bits', pair.value)}
           placeholder="Specify number of bits for alpha component"
           value={selectedAlphaBit}
           options={alphaBits}
+          theme="material"
         />
       </li>
     </ul>
