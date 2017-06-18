@@ -1,5 +1,6 @@
 @import "~font-awesome/css/font-awesome.css";
 @import '../node_modules/react-selectize/themes/index.css';
+@import '~materialize-css/dist/css/materialize.min.css';
 
 body {
   position: relative;
@@ -38,4 +39,20 @@ a:hover {
   opacity: 1;
   text-decoration: none;
   cursor: pointer;
+}
+
+.react-selectize-placeholder {
+	color: rgba(255 , 255, 255, .3) !important;
+}
+
+.react-selectize {
+	color: #fff !important;
+}
+
+.react-selectize.root-node {
+	width : 100% !important;
+}
+
+.react-selectize.material.root-node {
+  border-bottom: 1px solid #9e9e9e !important;
 }
