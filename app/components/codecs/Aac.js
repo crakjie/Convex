@@ -28,59 +28,65 @@ export default function Aac(props) {
   const selectedProfile = defundef(profiles.find(profile => profile.value === props.value.options.get('profile:a')));
 
   return (
-    <ul>
-      <li>
-        <SimpleInput
-          label="Resolution."
-          id="size"
-          value={defundef(props.value.options.get('size'))}
-          onChange={props.onOptionChange}
-        />
-      </li>
-      <li>
-        <SimpleSelect
-          id="aac_coder"
-          onValueChange={pair => props.onOptionChange('aac_coder', pair.value)}
-          placeholder="Select ACC coder"
-          value={selectedCoder}
-          options={coders}
-          theme="material"
-        />
-      </li>
-      <li>
-        <SimpleSelect
-          id="profile:a"
-          onValueChange={pair => props.onOptionChange('profile:a', pair.value)}
-          placeholder="Select a profile"
-          value={selectedProfile}
-          options={profiles}
-          theme="material"
-        />
-      </li>
-      <li>
-        <SimpleInput
-          label="Set cutoff frequency."
-          id="cutoff"
-          value={defundef(props.value.options.get('cutoff'))}
-          onChange={props.onOptionChange}
-        />
-      </li>
-      <li>
-        <SimpleInput
-          label="Set constant bit rate in bits/s."
-          id="a:b"
-          value={defundef(props.value.options.get('a:b'))}
-          onChange={props.onOptionChange}
-        />
-      </li>
-      <li>
-        <SimpleInput
-          label="Set quality for variable bit rate (VBR) mode."
-          id="a:q"
-          value={defundef(props.value.options.get('a:q'))}
-          onChange={props.onOptionChange}
-        />
-      </li>
-    </ul>
+    <table>
+      <tr>
+        <td>
+          <SimpleInput
+            label="Resolution."
+            id="size"
+            value={defundef(props.value.options.get('size'))}
+            onChange={props.onOptionChange}
+          />
+        </td>
+        <td>
+          <SimpleSelect
+            id="aac_coder"
+            onValueChange={pair => props.onOptionChange('aac_coder', pair.value)}
+            placeholder="Select ACC coder"
+            value={selectedCoder}
+            options={coders}
+            theme="material"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <SimpleSelect
+            id="profile:a"
+            onValueChange={pair => props.onOptionChange('profile:a', pair.value)}
+            placeholder="Select a profile"
+            value={selectedProfile}
+            options={profiles}
+            theme="material"
+          />
+        </td>
+        <td>
+          <SimpleInput
+            label="Set cutoff frequency."
+            id="cutoff"
+            value={defundef(props.value.options.get('cutoff'))}
+            onChange={props.onOptionChange}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <SimpleInput
+            label="Set constant bit rate in bits/s."
+            id="a:b"
+            value={defundef(props.value.options.get('a:b'))}
+            onChange={props.onOptionChange}
+          />
+        </td>
+        <td>
+          <SimpleInput
+            label="Set quality for variable bit rate (VBR) mode."
+            id="a:q"
+            value={defundef(props.value.options.get('a:q'))}
+            onChange={props.onOptionChange}
+          />
+        </td>
+      </tr>
+    </table>
   );
 }

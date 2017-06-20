@@ -40,62 +40,68 @@ export default function Prores(props) {
   const selectedAlphaBit = defundef(alphaBits.find(alphaBit => alphaBit.value === props.value.options.get('alpha_bits')));
 
   return (
-    <ul>
-      <li>
-        <SimpleInput
-          label="Resolution."
-          id="size"
-          value={defundef(props.value.options.get('size'))}
-          onChange={props.onOptionChange}
-        />
-      </li>
-      <li>
-        <SimpleSelect
-          id="profile:v"
-          onValueChange={pair => props.onOptionChange('profile:v', pair.value)}
-          placeholder="Select a profile"
-          value={selectedProfile}
-          options={profiles}
-          theme="material"
-        />
-      </li>
-      <li>
-        <SimpleSelect
-          id="quant_mat"
-          onValueChange={pair => props.onOptionChange('quant_mat', pair.value)}
-          placeholder="Select a quantization matrix"
-          value={selectedQuantMatrix}
-          options={quantMatrixs}
-          theme="material"
-        />
-      </li>
-      <li>
-        <SimpleInput
-          label="Bits per macroblock, max 8000."
-          id="bits_per_mb"
-          value={defundef(props.value.options.get('bits_per_mb'))}
-          onChange={props.onOptionChange}
-        />
-      </li>
-      <li>
-        <SimpleInput
-          label="Number of macroblocks in each slice (1-8)"
-          id="mbs_per_slice"
-          value={defundef(props.value.options.get('mbs_per_slice'))}
-          onChange={props.onOptionChange}
-        />
-      </li>
-      <li>
-        <label htmlFor="alpha_bits">Specify number of bits for alpha component</label>
-        <SimpleSelect
-          id="alpha_bits"
-          onValueChange={pair => props.onOptionChange('alpha_bits', pair.value)}
-          placeholder="Specify number of bits for alpha component"
-          value={selectedAlphaBit}
-          options={alphaBits}
-          theme="material"
-        />
-      </li>
-    </ul>
+    <table>
+      <tr>
+        <td>
+          <SimpleInput
+            label="Resolution."
+            id="size"
+            value={defundef(props.value.options.get('size'))}
+            onChange={props.onOptionChange}
+          />
+        </td>
+        <td>
+          <SimpleSelect
+            id="profile:v"
+            onValueChange={pair => props.onOptionChange('profile:v', pair.value)}
+            placeholder="Select a profile"
+            value={selectedProfile}
+            options={profiles}
+            theme="material"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <SimpleSelect
+            id="quant_mat"
+            onValueChange={pair => props.onOptionChange('quant_mat', pair.value)}
+            placeholder="Select a quantization matrix"
+            value={selectedQuantMatrix}
+            options={quantMatrixs}
+            theme="material"
+          />
+        </td>
+        <td>
+          <SimpleInput
+            label="Bits per macroblock, max 8000."
+            id="bits_per_mb"
+            value={defundef(props.value.options.get('bits_per_mb'))}
+            onChange={props.onOptionChange}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <SimpleInput
+            label="Number of macroblocks in each slice (1-8)"
+            id="mbs_per_slice"
+            value={defundef(props.value.options.get('mbs_per_slice'))}
+            onChange={props.onOptionChange}
+          />
+        </td>
+        <td>
+          <label htmlFor="alpha_bits">Specify number of bits for alpha component</label>
+          <SimpleSelect
+            id="alpha_bits"
+            onValueChange={pair => props.onOptionChange('alpha_bits', pair.value)}
+            placeholder="Specify number of bits for alpha component"
+            value={selectedAlphaBit}
+            options={alphaBits}
+            theme="material"
+          />
+        </td>
+      </tr>
+    </table>
   );
 }
