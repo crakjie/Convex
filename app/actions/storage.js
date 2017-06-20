@@ -1,14 +1,14 @@
 import electron from 'electron';
 import path from 'path';
 import fs from 'fs';
-
+import { userData } from './utils.js';
 
 
 class Store {
   constructor(fileName: string) {
     // Renderer process has to get `app` module via `remote`, whereas the main process can get it directly
     // app.getPath('userData') will return a string of the user's app data directory path.
-    const userDataPath = (electron.app || electron.remote.app).getPath('userData');
+    const userDataPath = userData();
     // We'll use the `configName` property to set the file name and path.join to bring it all together as a string
     this.path = path.join(userDataPath, fileName);
 

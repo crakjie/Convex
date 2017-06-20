@@ -1,3 +1,69 @@
 .container {
 	font-color: white;
 }
+
+.tab {
+	background-color: white;
+}
+
+//je voudrais pouvoir ciblé la classe directement sans passé par du global
+:global(.outputSettings__wrapper) {
+	text-align: center;
+}
+
+:global(.outputSettings__tab__wrapper) {
+	display: inline-block;
+}
+
+:global(.outputSettings__tab) {
+	list-style-type: none;
+	cursor: pointer;
+	display: inline-block;
+	font-weight: 600;
+	float: left;
+	padding: 0.625rem 1.25rem;
+	position: relative;
+	transition: 0.1s ease-in-out;
+	margin: 0 auto;
+
+	&:hover {
+    	cursor: pointer;
+	}
+
+	&::before, &::after {
+		content: "";
+		display: block;
+		height: 4px;
+		position: absolute;
+		transition: 0.1s ease-in-out;
+	}
+
+	&::before {
+		left: -2px;
+		right: -2px;
+		top: -2px;
+	}
+
+  	&::after {
+		bottom: -2px;
+		left: 0;
+		right: 0;
+	}
+}
+:global(.outputSettings__tab.active) {
+	position: relative;
+	z-index: 1;
+	font-size: x-large;
+}
+
+:global(.outputSettings__panel) {
+	padding: 1.25rem;
+}
+
+:global(.outputSettings__panel.active) {
+	display: block;
+}
+
+:global(.outputSettings__panel.inactive) {
+	display: none;
+}

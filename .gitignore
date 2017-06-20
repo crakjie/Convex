@@ -53,3 +53,5 @@ npm-debug.log.*
 ffprobe.exe
 ffmpeg.exe
 ffplay.exe
+release.rar
+package-lock.json

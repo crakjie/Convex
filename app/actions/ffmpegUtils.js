@@ -1,4 +1,5 @@
 import ffmpeg  from 'fluent-ffmpeg';
+import { userData } from './utils.js';
 
 export function metadataFile(file) {
   return new Promise(function(resolve, reject) {
@@ -25,3 +26,20 @@ export const formats = {
     video: ['libx264', 'libopenh264', 'libx265']
   }
 };
+
+export function makeThumbnail(file) {
+  return new Promise(function(resolve, reject) {
+    console.log(file);
+    ffmpeg(file.file.path)
+    .on('filenames', function(filenames) {
+      console.log( userData());
+      console.log('Will generate ' + filenames.join(', '));
+      return resolve(filenames);
+    })
+    .screenshots({
+      timestamps: [30.5, '50%', '01:10.123'],
+      filename: 'thumbnail-at-%s-seconds.png',
+      folder: userData().concat('/thumbnails')
+    });
+  });
+}
