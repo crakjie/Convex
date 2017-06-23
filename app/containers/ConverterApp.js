@@ -13,6 +13,7 @@ import * as Utils from '../actions/utils.js';
 import * as Model from '../actions/model.js';
 
 
+
 export default class ConverterApp extends Component {
 
   constructor() {
@@ -24,9 +25,6 @@ export default class ConverterApp extends Component {
       selectedSetting : null,
       settingList : Utils.settingsFromJson(this.store.load())
     };
-
-
-
   }
 
   outputOptions(options : Map<string, string>) {
@@ -37,14 +35,20 @@ export default class ConverterApp extends Component {
     return arrayOpt;
   }
 
+  handleThumbailChange(file, paths) {
+     this.setState(state => {
+      const otherfiles = state.filesInfo.splice(state.filesInfo.indexOf(file), 1);
+      var clone = Object.assign({}, file);
+      clone['thumbnail'] = paths[0];
+      return { filesInfo : this.state.filesInfo.concat(clone)};
+     });
+  }
 
-
-handleDrop(newfiles) {
+  handleDrop(newfiles) {
     //add metadata and error to files in a tuple [file, metadata, err]
     const filteredFile = newfiles.map(ffpegUtils.metadataFile);
 
     Promise.all(filteredFile).then((list) => {
-      console.log(list)
       //remove errors and put files and metadata in an object
       const rightFiles = list.filter( mf => mf[2] == null ).map( x => {
         return {
@@ -52,11 +56,13 @@ handleDrop(newfiles) {
           metadata: x[1]
         };
       });
-      console.log(rightFiles)
+
+      rightFiles.map(f => ffpegUtils.makeThumbnail(f).then(paths => this.handleThumbailChange(f, paths)));
+
       this.setState({
         filesInfo : this.state.filesInfo.concat(rightFiles)
-      })
-    })
+      });
+    });
   }
 
   handleCreateConfig() {
@@ -82,7 +88,6 @@ handleDrop(newfiles) {
   }
 
   handleSettingChange(config) {
-    console.log(config);
     const i = Utils.findIndexOf(this.state.settingList,stg => stg.uid === config.uid);
     const copy = this.state.settingList.slice();
     copy[i] = config;
@@ -139,7 +144,6 @@ handleDrop(newfiles) {
 
   render() {
     this.store.store(Utils.settingsToJson(this.state.settingList));
-
     return (
       <div className={styles.wrapper} >
         <div className={styles.configPane} >

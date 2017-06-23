@@ -2,13 +2,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './FileLine.scss';
-/* <div  className={styles.container}  data-tid="container">*/
-/* </div>*/
+
+function thumbnail(thumbnail) {
+  if (thumbnail !== undefined) {
+    return (
+      <img className={styles.thumbnail} src={thumbnail.split('\\').join('/')} />
+    );
+  }
+}
+
 export default function FileLine(props) {
+  // remove windows backslash
   return (
-    <tr onClick={props.onClick} className={(props.isSelected ? styles.selected : styles.notselected)}>
-      <td>{props.file.name}</td>
-      <td>{props.metadata.format.format_name}</td>
-    </tr>
+    <div
+      onClick={props.onClick}
+      className={props.isSelected ? styles.selected : styles.notselected}
+    >
+      <p>{props.file.name}</p>
+      <p>{props.metadata.format.format_name}</p>
+      {thumbnail(props.thumbnail)}
+    </div>
   );
 }

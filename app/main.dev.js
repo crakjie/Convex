@@ -12,6 +12,7 @@
  */
 import { app, BrowserWindow } from 'electron';
 import MenuBuilder from './menu';
+import * as Utils from './actions/ffmpegUtils.js';
 
 let mainWindow = null;
 
@@ -51,6 +52,11 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+app.on('quit', () => {
+  // Remove temps files.
+  Utils.cleanTempFiles();
 });
 
 

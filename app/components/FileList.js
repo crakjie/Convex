@@ -11,9 +11,6 @@ export default class FileList extends Component {
 
   constructor() {
     super();
-    this.state = {
-      filesInfo: []
-    };
   }
 
   renderFile(fileInfo) {
@@ -22,20 +19,14 @@ export default class FileList extends Component {
         key={fileInfo.file.name}
         file={fileInfo.file}
         metadata={fileInfo.metadata}
+        thumbnail={fileInfo.thumbnail}
         onClick={() => this.props.onClick(fileInfo)}
         isSelected={fileInfo === this.props.selectedFile}
       />
     );
   }
 
-
-
-
-
-
   render() {
-
-
     const listItems = this.props.filesInfo.map((number) =>
       this.renderFile(number)
     );
@@ -43,16 +34,8 @@ export default class FileList extends Component {
     return (
       <div>
 
-        <div>
-           <table className={styles.files_table}>
-              <tbody>
-                <tr>
-                  <th>name</th>
-                  <th>format</th>
-                </tr>
-                {listItems}
-              </tbody>
-           </table>
+        <div  className={styles.listContainer}>
+           {listItems}
         </div>
         <div>
           <DropZone  onDrop={i => this.props.onDrop(i)}>

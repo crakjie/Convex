@@ -1,6 +1,18 @@
 .selected {
     background-color :rgba(255, 255, 255, .2);
+	position: relative;
+	height: 240px;
 }
 
-.noselected {
+.notselected {
+	position: relative;
+	height: 240px;
+}
+
+.thumbnail {
+	position: absolute;
+	left: 0px;
+    top: 0px;
+	max-height: 240px;
+	z-index: -1;
 }
