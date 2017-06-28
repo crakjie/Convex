@@ -28,17 +28,14 @@ function renderTablePart(table) {
 }
 
 export default function FileMetadata(props) {
-
-      const tableContent = props.tables.map(x => renderTablePart(x));
-      return (
-        <div className={styles.container} >
-          <table>
-            <tbody>
-              {tableContent}
-            </tbody>
-          </table>
-        </div>);
-
-
+  const tableContent = props.tables.map(x => renderTablePart(x));
+  return (
+    <div className={styles.container} >
+      <table>
+        <tbody>
+          {tableContent}
+        </tbody>
+      </table>
+    </div>);
 }
 
