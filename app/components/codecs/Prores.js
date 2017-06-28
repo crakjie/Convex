@@ -46,8 +46,8 @@ export default function Prores(props) {
           <SimpleInput
             label="Resolution."
             id="size"
-            value={defundef(props.value.options.get('size'))}
-            onChange={props.onOptionChange}
+            value={defundef(props.value.size)}
+            onChange={props.onChange}
           />
         </td>
         <td>
@@ -58,6 +58,14 @@ export default function Prores(props) {
             value={selectedProfile}
             options={profiles}
             theme="material"
+          />
+        </td>
+        <td>
+          <SimpleInput
+            label="Frame per second."
+            id="fps"
+            value={defundef(props.value.fps)}
+            onChange={props.onChange}
           />
         </td>
       </tr>
@@ -80,8 +88,6 @@ export default function Prores(props) {
             onChange={props.onOptionChange}
           />
         </td>
-      </tr>
-      <tr>
         <td>
            <SimpleInput
             label="Number of macroblocks in each slice (1-8)"
@@ -90,6 +96,8 @@ export default function Prores(props) {
             onChange={props.onOptionChange}
           />
         </td>
+      </tr>
+      <tr>
         <td>
           <label htmlFor="alpha_bits">Specify number of bits for alpha component</label>
           <SimpleSelect

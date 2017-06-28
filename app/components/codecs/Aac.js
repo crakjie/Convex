@@ -31,14 +31,6 @@ export default function Aac(props) {
     <table>
       <tr>
         <td>
-          <SimpleInput
-            label="Resolution."
-            id="size"
-            value={defundef(props.value.options.get('size'))}
-            onChange={props.onOptionChange}
-          />
-        </td>
-        <td>
           <SimpleSelect
             id="aac_coder"
             onValueChange={pair => props.onOptionChange('aac_coder', pair.value)}
@@ -48,8 +40,6 @@ export default function Aac(props) {
             theme="material"
           />
         </td>
-      </tr>
-      <tr>
         <td>
           <SimpleSelect
             id="profile:a"
@@ -60,6 +50,8 @@ export default function Aac(props) {
             theme="material"
           />
         </td>
+      </tr>
+      <tr>
         <td>
           <SimpleInput
             label="Set cutoff frequency."
