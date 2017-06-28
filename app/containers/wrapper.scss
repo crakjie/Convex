@@ -3,7 +3,7 @@
   height: 100vh;
   width: 100%;
 	grid-template-columns: 140px auto 350px;
-	grid-template-rows: 50% 50%;
+	grid-template-rows: 49% 50% 1%;
   grid-auto-rows: minmax(100px, auto);
 
 	.configPane {
@@ -30,6 +30,14 @@
 	.outputSetting{
 		grid-column: 1 / span 3;
 		grid-line: 2;
+		> div {
+			margin: 8px;
+		}
+	}
+
+	.progress{
+		grid-column: 1 / span 3;
+		grid-line: 3;
 		> div {
 			margin: 8px;
 		}

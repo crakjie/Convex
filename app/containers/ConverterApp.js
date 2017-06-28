@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import ffmpeg  from 'fluent-ffmpeg';
+import LinearProgress from 'material-ui/LinearProgress';
 import FileList from '../components/FileList';
 import FileMetadata from '../components/FileMetadata';
 import OutputSetting from '../components/OutputSettings';
@@ -98,6 +99,7 @@ export default class ConverterApp extends Component {
   }
 
   handleRun(outputSetting) {
+    console.log(this.state.selectedFile.metadata);
     ffmpeg(this.state.selectedFile.file.path)
     .outputFormat(outputSetting.format)
     .audioCodec(outputSetting.acodec)
@@ -116,9 +118,23 @@ export default class ConverterApp extends Component {
     })
     .on('end', function() {
       console.log('Processing finished !');
+      //TODO : Provoque une : this.setState is not a function, don't know why.
+      this.setState({
+        approxEndOfProcess : undefined,
+        progress : undefined
+      });
     })
     .on('filenames', function(filenames) {
       console.log('Will generate ' + filenames.join(', '));
+    })
+    .on('progress', progress => {
+      console.log('Processing: ' + progress.percent + '% done, advencing at ' + progress.currentFps);
+      console.log(this.state.selectedFile.metadata.streams[0].nb_frames);
+      console.log('Estimated end of process' + ffpegUtils.estimateEndTime(new Date(), progress, this.state.selectedFile.metadata.streams[0].nb_frames));
+      this.setState({
+        approxEndOfProcess : ffpegUtils.estimateEndTime(new Date(), progress, this.state.selectedFile.metadata.streams[0].nb_frames),
+        progress : progress.percent
+      });
     })
     .save('C:\\Users\\etienne\\Documents\\output.mp4');
 
@@ -138,6 +154,17 @@ export default class ConverterApp extends Component {
             onChange={i => this.handleSettingChange(i)}
             settings={this.state.selectedSetting}
           />
+      );
+    }
+  }
+
+  renderProgress() {
+    console.log(this.state.progress);
+    if(this.state.progress !== undefined) {
+      return (
+        <div>
+          <LinearProgress mode="determinate" value={this.state.progress} />
+        </div>
       );
     }
   }
@@ -169,6 +196,9 @@ export default class ConverterApp extends Component {
         </div>
         <div className={styles.outputSetting} >
           {this.renderSettings()}
+        </div>
+        <div className={styles.progress} >
+          {this.renderProgress()}
         </div>
       </div>
     );

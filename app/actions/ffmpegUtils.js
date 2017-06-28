@@ -92,3 +92,20 @@ function deleteFolderRecursive(path) {
     fs.rmdirSync(path);
   }
 }
+
+//return the aproximate number of second untill the end of the process
+export function estimateLastingTime(progress, numberOfFrame: number): number {
+  const lastingFrame = numberOfFrame - progress.frames;
+  if (progress.currentFps > 0) {
+    return Math.floor(lastingFrame / progress.currentFps);
+  } else {
+    return 0;
+  }
+}
+
+export function estimateEndTime(curentdate: Date, progress, numberOfFrame: number): Date {
+  const lastingMilliSecond = estimateLastingTime(progress, numberOfFrame) * 1000;
+  console.log(lastingMilliSecond);
+  console.log(new Date(curentdate.getTime() + lastingMilliSecond));
+  return new Date(curentdate.getTime() + lastingMilliSecond);
+}
