@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function SimpleInput(props) {
   return (
-    <div className="input-field">
+    <div>
       <label htmlFor={props.id}>{props.label}</label>
       <input
         id={props.id}
