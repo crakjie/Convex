@@ -152,7 +152,7 @@ export default class OutputSetting extends Component {
             {this.renderAudioCodec()}
           </Panel>
         </Tabs>
-        <button onClick={() => this.props.onClick(this.settings)}>Convert</button>
+        <button onClick={() => this.props.onRun(this.settings)}>Convert</button>
       </div>
     );
   }
